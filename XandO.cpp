@@ -3,6 +3,13 @@
 #include <stdlib.h>
 using namespace std;
 
+void llenar(char [3][3]);
+void mostrar(char [3][3]);
+void modificar(char [3][3], char);
+void rival(char [3][3]);
+bool ganador(char [3][3]);
+bool endGame (char [3][3]);
+int disponible(char [3][3]);
 
 int main(){
     char matriz[3][3];
