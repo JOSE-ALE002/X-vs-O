@@ -1,16 +1,16 @@
 #include <iostream>
-#include <ctime>
-#include <stdlib.h>
+#include <ctime> //FUNCION PARA GENERAR UN NUMERO RANDOM
+#include <stdlib.h>//
 using namespace std;
 
-void llenar(char [3][3]);
-void mostrar(char [3][3]);
-void insertar(char [3][3]);
-void rival(char [3][3]);
-bool ganador(char [3][3]);
-bool perdedor(char [3][3]);
-bool endGame (char [3][3]);
-int disponible(char [3][3]);
+void llenar(char [3][3]); //PERMITE LLENAR LA MATRIZ CON LAS POSICIONES DEL 1-9
+void mostrar(char [3][3]);//MUESTRA LA MATRIZ 
+void insertar(char [3][3]);// INSERTA EL CARACTER 'X' - 'O', MODIFICANDO LA MATRIZ
+void rival(char [3][3]);// PERMITE REALIZAR EL JUEGO DEL RIVAL
+bool ganador(char [3][3]);//PERMITE SABER SI GANO LA 'X'
+bool perdedor(char [3][3]);//PERMITE SABER SI GANO LA 'O'
+bool endGame (char [3][3]);//VERIFICA SI TODAS LAS CASILLAS ESTAN LLENAS Y SI HAY UN GANADOR
+int disponible(char [3][3]); // VERIFICA LA CANTIDAD DE CASILLAS VACIAS
 
 int main(){
     char matriz[3][3];
@@ -26,6 +26,7 @@ int main(){
     return 0;
 }
 
+//LLENAMOS EL ARREGLO CON LAS POSICIONES DEL 1-9
 void llenar(char array[3][3]){
     char num = '1';
 
@@ -40,6 +41,7 @@ void llenar(char array[3][3]){
     }
 }
 
+//MOSTRAMOS EL ARREGLO Y LAS MODIFICACIONES
 void mostrar(char array[3][3]){
     for (int i = 0; i < 3; i++)
     {
@@ -52,6 +54,8 @@ void mostrar(char array[3][3]){
     }
 }
 
+
+//INSERTAMOS LOS MOVIMIENTOS DEL JUGADOR PRINCIPAL Y DE EL RIVAL
 void insertar(char array[3][3]){
     char casilla;
 
@@ -70,12 +74,16 @@ void insertar(char array[3][3]){
         }      
     }
 
+/*VERIFICAMOS SI HAN GANADO LAS 'X', y SI LAS CASILLAS DISPONIBLES SON MAYORES QUE 1, YA QUE CUANDO QUEDA 
+LA ULTIMA CASILLAS ESTE LE PERTENECE A LAS 'X', MIENTRAS ESTO SE CUMPLA EL RIVAL PODRA DAR SU MOVIMIENTO*/
     if(ganador(array) && disponible(array)>=1 ){
         rival(array);
     }
     
 }
 
+/*VERIFICAMOS SI TODAS LAS CASILLAS ESTEN LLENAS Y SI HAY UN GANADOR, MIENTRAS NO OCURRA UNA DE ESTAS 
+CONDICIONES EL JUEGO CONTINUARA*/
 bool endGame (char arr[3][3]){
     bool resp = true;
     mostrar(arr);
@@ -110,6 +118,7 @@ bool endGame (char arr[3][3]){
     return resp;
 }
 
+//VERIFICAMOS SI LAS 'X' GANAN CON LAS POSIBLES COMBINACIONES GANADORORAS
 bool ganador(char arr[3][3]){
     bool ganar = true;
 
@@ -166,6 +175,7 @@ void mostrarGanador(char array[3][3]){
     }
 }
 
+//INSERTA MOVIMIENTO DEL RIVAL
 void rival(char arr[3][3]){
     char *disponibles = new char[disponible(arr)];
     int index = 0;
@@ -196,6 +206,7 @@ void rival(char arr[3][3]){
     delete []disponibles;
 }
 
+//VERIFICA LAS CASILLAS QUE ESTAN VACIAS
 int disponible(char arr[3][3]){
     int acum = 0;
     for (int i = 0; i < 3; i++)
@@ -212,6 +223,7 @@ int disponible(char arr[3][3]){
 }
 
 
+//VERIFICAMOS SI LAS 'O' GANAN CON LAS POSIBLES COMBINACIONES GANADORORAS
 bool perdedor(char arr[3][3]){
     bool perder = true;
 
