@@ -5,35 +5,23 @@ using namespace std;
 
 void llenar(char [3][3]);
 void mostrar(char [3][3]);
-void modificar(char [3][3], char);
+void insertar(char [3][3]);
 void rival(char [3][3]);
 bool ganador(char [3][3]);
+bool perdedor(char [3][3]);
 bool endGame (char [3][3]);
 int disponible(char [3][3]);
 
 int main(){
     char matriz[3][3];
-    char casilla;
     llenar(matriz);
+    mostrar(matriz);
 
     do{
-        do{
-            mostrar(matriz);
-            cin>>casilla;
-        }while( casilla <  '1' ||  casilla > '9');
-        modificar(matriz, casilla);
-
-        if(disponible(matriz) != 0){
-            cout<<"Disponibles antes:"<<disponible(matriz)<<endl;
-            rival(matriz);
-            cout<<"Disponibles despues:"<<disponible(matriz)<<endl;
-        }else if(disponible(matriz) == 0 && ganador(matriz)){
-            cout<<"Empate";
-        }
-        
-    }while(endGame(matriz) && ganador(matriz));
-
-    // mostrar(matriz);
+        insertar(matriz);
+        cout<<"\n\n";
+    }while(endGame(matriz));
+    
     
     return 0;
 }
@@ -62,38 +50,61 @@ void mostrar(char array[3][3]){
 
         cout<<"\n==================================================\n";
     }
-
-    cout<<"Ingrese numero a jugar: ";
 }
 
-void modificar(char array[3][3], char num){
+void insertar(char array[3][3]){
+    char casilla;
+
+    do{
+        cout<<"Ingrese numero a jugar: ";
+        cin>>casilla;
+    }while(casilla <  '1' ||  casilla > '9');
+
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
         {
-            if(array[i][j] == num){
+            if(array[i][j] == casilla){
                 array[i][j] = 'X';
             }
         }      
     }
+
+    if(ganador(array) && disponible(array)>=1 ){
+        rival(array);
+    }
+    
 }
 
 bool endGame (char arr[3][3]){
-    bool resp = false;
+    bool resp = true;
+    mostrar(arr);
 
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            if(arr[i][j] != 'X' || arr[i][j] != 'O'){
-                resp = true;
-                break;
-            }
+    if(disponible(arr) != 0){
+        if(!ganador(arr)){
+            resp = false;
+            cout<<"Has Ganado :D"<<endl;
+        }
+        
+        if(!perdedor(arr)){
+            resp = false;
+            cout<<"Has Perdido :("<<endl;
+        }
+    }else{
+        if(perdedor(arr) && ganador(arr)){
+            resp = false;
+            cout<<"Empate :/"<<endl;
+        }
 
-            if(resp == true){
-                break;
-            }
-        }     
+        if(!ganador(arr)){
+            resp = false;
+            cout<<"Has Ganado :D"<<endl;
+        }
+        
+        if(!perdedor(arr)){
+            resp = false;
+            cout<<"Has Perdido :("<<endl;
+        }
     }
 
     return resp;
@@ -101,100 +112,43 @@ bool endGame (char arr[3][3]){
 
 bool ganador(char arr[3][3]){
     bool ganar = true;
+
     if((arr[0][0] == 'X' && arr[0][1] == 'X' && arr[0][2] == 'X')){
         ganar = false;
-        mostrar(arr);
-        cout<<"Ganaste"<<endl;
-    }else if((arr[0][0] == 'O' && arr[0][1] == 'O' && arr[0][2] == 'O')){
-        ganar = false;
-        mostrar(arr);
-        cout<<"Has Perdido"<<endl;
     }
 
 
     if((arr[1][0] == 'X' && arr[1][1] == 'X' && arr[1][2] == 'X')){
         ganar = false;
-        mostrar(arr);
-        cout<<"Ganaste"<<endl;
-    }else if((arr[1][0] == 'O' && arr[1][1] == 'O' && arr[1][2] == 'O')){
-        ganar = false;
-        mostrar(arr);
-        cout<<"Has Perdido"<<endl;
     }
 
 
     if((arr[2][0] == 'X' && arr[2][1] == 'X' && arr[2][2] == 'X')){
         ganar = false;
-        mostrar(arr);
-        cout<<"Ganaste"<<endl;
-    }else if((arr[2][0] == 'O' && arr[2][1] == 'O' && arr[2][2] == 'O')){
-        ganar = false;
-        mostrar(arr);
-        cout<<"Has Perdido"<<endl;
     }
 
 
     if((arr[0][0] == 'X' && arr[1][0] == 'X' && arr[2][0] == 'X')){
         ganar = false;
-        mostrar(arr);
-        cout<<"Ganaste"<<endl;
-    }else if((arr[0][0] == 'O' && arr[1][0] == 'O' && arr[2][0] == 'O')){
-        ganar = false;
-        mostrar(arr);
-        cout<<"Has Perdido"<<endl;
     }
 
 
     if((arr[0][1] == 'X' && arr[1][1] == 'X' && arr[2][1] == 'X')){
         ganar = false;
-        mostrar(arr);
-        cout<<"Ganaste"<<endl;
-    }else if((arr[0][1] == 'O' && arr[1][1] == 'O' && arr[2][1] == 'O')){
-        ganar = false;
-        mostrar(arr);
-        cout<<"Has Perdido"<<endl;
     }
 
 
     if((arr[0][2] == 'X' && arr[1][2] == 'X' && arr[2][2] == 'X')){
         ganar = false;
-        mostrar(arr);
-        cout<<"Ganaste"<<endl;
-    }else if((arr[0][2] == 'O' && arr[1][2] == 'O' && arr[2][2] == 'O')){
-        ganar = false;
-        mostrar(arr);
-        cout<<"Has Perdido"<<endl;
     }
+
 
     if((arr[0][0] == 'X' && arr[1][1] == 'X' && arr[2][2] == 'X')){
         ganar = false;
-        mostrar(arr);
-        cout<<"Ganaste"<<endl;
-    }else if((arr[0][0] == 'O' && arr[1][1] == 'O' && arr[2][2] == 'O')){
-        ganar = false;
-        mostrar(arr);
-        cout<<"Has Perdido"<<endl;
-    }
-
-    
-    if((arr[0][2] == 'X' && arr[1][1] == 'X' && arr[2][0] == 'X')){
-        ganar = false;
-        mostrar(arr);
-        cout<<"Ganaste"<<endl;
-    }else if((arr[0][1] == 'O' && arr[1][1] == 'O' && arr[2][1] == 'O')){
-        ganar = false;
-        mostrar(arr);
-        cout<<"Has Perdido"<<endl;
     }
 
     if((arr[0][2] == 'X' && arr[1][1] == 'X' && arr[2][0] == 'X')){
         ganar = false;
-        mostrar(arr);
-        cout<<"Ganaste"<<endl;
-    }else if((arr[0][2] == 'O' && arr[1][1] == 'O' && arr[2][0] == 'O')){
-        ganar = false;
-        mostrar(arr);
-        cout<<"Has Perdido"<<endl;
     }
 
     return ganar;
@@ -216,7 +170,6 @@ void rival(char arr[3][3]){
     char *disponibles = new char[disponible(arr)];
     int index = 0;
 
-    cout<<"Disponibles en funcion: "<<disponible(arr)<<endl;
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
@@ -230,7 +183,6 @@ void rival(char arr[3][3]){
 
     srand(time(NULL));
     int num = 0 + rand()% (disponible(arr));
-    cout<<"La posicion elegida O es: "<<disponibles[num]<<endl;
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
@@ -242,7 +194,6 @@ void rival(char arr[3][3]){
     }
 
     delete []disponibles;
-    
 }
 
 int disponible(char arr[3][3]){
@@ -258,5 +209,50 @@ int disponible(char arr[3][3]){
     }
 
     return acum;
+}
+
+
+bool perdedor(char arr[3][3]){
+    bool perder = true;
+
+    if((arr[0][0] == 'O' && arr[0][1] == 'O' && arr[0][2] == 'O')){
+        perder = false;
+    }
+
+
+    if((arr[1][0] == 'O' && arr[1][1] == 'O' && arr[1][2] == 'O')){
+        perder = false;
+    }
+
+
+    if((arr[2][0] == 'O' && arr[2][1] == 'O' && arr[2][2] == 'O')){
+        perder = false;
+    }
+
+
+    if((arr[0][0] == 'O' && arr[1][0] == 'O' && arr[2][0] == 'O')){
+        perder = false;
+    }
+
+
+    if((arr[0][1] == 'O' && arr[1][1] == 'O' && arr[2][1] == 'O')){
+        perder = false;
+    }
+
+
+    if((arr[0][2] == 'O' && arr[1][2] == 'O' && arr[2][2] == 'O')){
+        perder = false;
+    }
+
+
+    if((arr[0][0] == '0' && arr[1][1] == '0' && arr[2][2] == '0')){
+        perder = false;
+    }
+
+    if((arr[0][2] == '0' && arr[1][1] == '0' && arr[2][0] == '0')){
+        perder = false;
+    }
+
+    return perder;
 }
 
